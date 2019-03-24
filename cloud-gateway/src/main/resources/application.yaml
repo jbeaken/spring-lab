@@ -14,14 +14,12 @@ spring:
   devtools:
     remote:
       secret=b4409eff-031a-48a5-ac36-4b74da00fd61
-dekorate:
-  docker:
-    name: cloud-gateway
-    group: jackbeaken
-    version: latest
+  redis:
+    host: localhost
+    port: 6379
 logging:
   level:
-    org.springframework.security: TRACE
+    org.springframework.security: INFO
 
 
 

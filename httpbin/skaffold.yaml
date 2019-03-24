@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+metadata:
+  name: httpbin
+build:
+  artifacts:
+  - image: hal/httpbin
+    jib:
+      project: com.jack.spring:httpbin
+deploy:
+  kubectl:
+    manifests:
+    - target/classes/META-INF/dekorate/kubernetes.json
+    - target/classes/META-INF/dekorate/kubernetes.yml
