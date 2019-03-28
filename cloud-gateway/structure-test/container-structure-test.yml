@@ -3,5 +3,4 @@ fileExistenceTests:
   - name: 'no go binary'
     path: '/usr/bin/go'
     shouldExist: false
-
-
+    
