@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/toys")
-public class BestsellerToysRestController {
+public class ServiceDosRestController {
 
     private String appid = UUID.randomUUID().toString();
 

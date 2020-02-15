@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class BestsellerFashionApplication {
+public class ServiceUnoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BestsellerFashionApplication.class, args);
+		SpringApplication.run(ServiceUnoApplication.class, args);
 	}
 }

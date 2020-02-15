@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @RestController
 @RequestMapping("/fashion")
-public class BestsellerFashionRestController {
+public class ServiceUnoRestController {
 
     @GetMapping("/bestseller")
     public List<Product> getBestsellerProducts() {

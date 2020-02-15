@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Benjamin Wilms
  */
 @RestController
-public class HotDealsRestController {
+public class ServiceTresRestController {
 
     @GetMapping("/hotdeals")
     public List<Product> getHotDeals() {
