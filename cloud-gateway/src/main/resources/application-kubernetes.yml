@@ -1,0 +1,17 @@
+spring:
+  redis:
+    host: redis-master.default.svc.cluster.local
+    port: 6379
+    password: margarine
+  cloud:
+    kubernetes:
+      enabled: true
+      reload:
+        enabled: true
+eureka:
+  client:
+    enabled: false
+
+dekorate:
+  kubernetes:
+    serviceType: "NodePort"
