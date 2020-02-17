@@ -95,7 +95,7 @@
             <dependency>
                 <groupId>io.dekorate</groupId>
                 <artifactId>kubernetes-spring-starter</artifactId>
-                <version>0.7.5</version>
+                <version>0.10.11</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

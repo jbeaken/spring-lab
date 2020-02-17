@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.chaos.monkey.shopping.domain.Product;
 
-//import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
+import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
 
 import static io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
 import static java.time.Duration.ofMillis;
@@ -41,8 +41,8 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-//	@Autowired
-//	private TokenRelayGatewayFilterFactory filterFactory;
+	@Autowired
+	private TokenRelayGatewayFilterFactory filterFactory;
 
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder builder) {
@@ -53,7 +53,9 @@ public class GatewayApplication {
 						.filters(f -> f.circuitBreaker(c -> c.setName("fashion").setFallbackUri("forward:/fallback")))
 						.uri("lb://fashion-bestseller"))
 				.route(p -> p.path("/httpbin/**")
-						.filters(f -> f.circuitBreaker(c -> c.setName("myCircuitBreaker").setFallbackUri("forward:/fallback"))).uri("lb://httpbin"))
+//						.filters(f ->  f.circuitBreaker(c -> c.setName("myCircuitBreaker").setFallbackUri("forward:/fallback")))
+						.filters(f -> f.filter(filterFactory.apply()))
+						.uri("lb://httpbin"))
 				.route(p -> p.path("/toys/**")
 						.filters(f -> f.requestRateLimiter().configure(c -> c.setRateLimiter(redisRateLimiter()).setKeyResolver(allOneWorldKeyResolver()))).uri("lb://toys-bestseller"))
 				.build();
