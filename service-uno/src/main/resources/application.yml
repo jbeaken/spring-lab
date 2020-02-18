@@ -30,5 +30,6 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 dekorate:
-  kubernetes:
+    group: spring-lab
+  docker:
     group: jackbeaken
