@@ -3,14 +3,24 @@ version: '3.2'
 volumes:
   postgres-data: {}
   
-services:    
+services:
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  eureka:
+    image: springcloud/eureka
+    ports:
+      - "8761:8761"
      
   keycloak:
     image: jboss/keycloak:8.0.2
     ports:
       - "9090:8080"
     environment:
-      KEYCLOAK_LOGLEVEL: DEBUG
+      KEYCLOAK_LOGLEVEL: INFO
       KEYCLOAK_USER: admin 
       KEYCLOAK_PASSWORD: admin
       DB_VENDOR: postgres
