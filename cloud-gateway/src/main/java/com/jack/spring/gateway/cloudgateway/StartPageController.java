@@ -1,5 +1,10 @@
 package com.jack.spring.gateway.cloudgateway;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
@@ -42,6 +47,17 @@ public class StartPageController implements ApplicationListener<WebServerInitial
 		this.errorResponse = new ProductResponse();
 		errorResponse.setResponseType(ResponseType.ERROR);
 		errorResponse.setProducts(Collections.emptyList());
+	}
+
+
+	@GetMapping("/")
+	public Mono<Model> index(Model model, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient, @AuthenticationPrincipal OAuth2User oauth2User) {
+		model.addAttribute("userName", oauth2User.getName());
+		model.addAttribute("clientRegistration", authorizedClient.getClientRegistration());
+		model.addAttribute("authorizedClient", authorizedClient);
+		model.addAttribute("userAttributes", oauth2User.getAttributes());
+
+		return Mono.just(model);
 	}
 
 
