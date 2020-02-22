@@ -47,8 +47,7 @@ dekorate:
   kubernetes:
     group: jackbeaken
 logging:
-  #  level: INFO
-  loggers:
-    com.netflix.discovery.provider.DiscoveryJerseyProvider:
-      level: NONE
+  level:
+    org.springframework.security: TRACE
+
 
