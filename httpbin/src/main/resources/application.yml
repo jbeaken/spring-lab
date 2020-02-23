@@ -47,3 +47,6 @@ eureka:
 dekorate:
   kubernetes:
     group: jackbeaken
+logging:
+  level:
+    org.springframework.security: TRACE

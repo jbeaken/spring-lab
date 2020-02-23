@@ -16,8 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                // require the user to have the "dummy" role
-                .antMatchers("/**").hasRole("dummy")
+                .antMatchers("/**").hasRole("spring-lab")
 
                 .anyRequest().authenticated()
                 .and()
