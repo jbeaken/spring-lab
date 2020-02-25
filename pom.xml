@@ -130,7 +130,6 @@
                             <version>${docker-maven-plugin.version}</version>
                             <configuration>
                                 <skipPush>true</skipPush>
-                                <!--                                <registry>079179965975.dkr.ecr.us-east-1.amazonaws.com</registry>-->
                                 <images>
                                     <image>
                                         <name>${docker.image.prefix}/${project.artifactId}</name>
@@ -144,10 +143,6 @@
                                                 <SERVICE_NAME>${project.name}</SERVICE_NAME>
                                             </args>
                                         </build>
-                                        <!--                                        <authConfig>-->
-                                        <!--                                            <username>jackbeaken</username>-->
-                                        <!--                                            <password>password</password>-->
-                                        <!--                                        </authConfig>-->
                                     </image>
                                 </images>
                             </configuration>
