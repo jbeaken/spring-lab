@@ -62,7 +62,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.example.chaos.monkey.shopping</groupId>
+            <groupId>com.jack.spring</groupId>
             <artifactId>shared</artifactId>
             <version>${parent.version}</version>
         </dependency>
