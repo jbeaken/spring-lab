@@ -1,3 +1,5 @@
+![Java CI](https://github.com/jbeaken/spring-lab/workflows/Java%20CI/badge.svg)
+
 # Building The Containers
 
 Each project contains a Dockerfile that will create a container for the app.  You can do this easily
@@ -9,7 +11,7 @@ your own prefix.
 After building the container images you will need to push them to a repository that your Kubernetes
 deployment has access to, for example Docker Hub.
 
-# Deploying To Kubernetes 
+# Deploying To Kubernetes
 
 Each project uses [Dekorate](https://github.com/dekorateio/dekorate) in order to build a YAML file that can be used to deploy the app to Kubernetes.
 
@@ -35,4 +37,3 @@ If using MiniKube you can easily open the service by running `minikube service <
 ```
 $ minikube service gateway
 ```
-
