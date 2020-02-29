@@ -36,6 +36,14 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
+    <distributionManagement>
+       <repository>
+         <id>github</id>
+         <name>GitHub OWNER Apache Maven Packages</name>
+         <url>https://maven.pkg.github.com/beakenj/spring-lab</url>
+       </repository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
