@@ -87,6 +87,12 @@
     </dependencies>
     <build>
         <plugins>
+          <plugin>
+                 <artifactId>maven-deploy-plugin</artifactId>
+                 <configuration>
+                   <skip>false</skip>
+                </configuration>
+          </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
