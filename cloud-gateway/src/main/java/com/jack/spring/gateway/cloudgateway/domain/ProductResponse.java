@@ -1,7 +1,8 @@
 package com.jack.spring.gateway.cloudgateway.domain;
 
+import com.jack.spring.gateway.domain.Product;
+
 import java.util.List;
-import com.example.chaos.monkey.shopping.domain.Product;
 
 /**
  * @author Benjamin Wilms
