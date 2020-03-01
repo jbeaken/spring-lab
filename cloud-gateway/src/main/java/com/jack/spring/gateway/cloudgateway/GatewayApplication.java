@@ -1,5 +1,6 @@
 package com.jack.spring.gateway.cloudgateway;
 
+import com.jack.spring.gateway.domain.Product;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.chaos.monkey.shopping.domain.Product;
 
 import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
 
