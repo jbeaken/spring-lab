@@ -1,5 +1,6 @@
 package com.jack.spring.gateway.cloudgateway;
 
+import com.jack.spring.gateway.domain.Product;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.example.chaos.monkey.shopping.domain.Product;
 import com.jack.spring.gateway.cloudgateway.domain.ProductResponse;
 import com.jack.spring.gateway.cloudgateway.domain.ResponseType;
 import com.jack.spring.gateway.cloudgateway.domain.Startpage;
