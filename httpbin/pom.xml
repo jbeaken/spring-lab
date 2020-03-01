@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.jack.spring</groupId>
             <artifactId>shared</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

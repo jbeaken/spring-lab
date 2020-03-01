@@ -9,12 +9,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>service-uno</module>
-        <module>service-dos</module>
-        <module>service-tres</module>
+<!--        <module>service-uno</module>-->
+<!--        <module>service-dos</module>-->
+<!--        <module>service-tres</module>-->
         <module>cloud-gateway</module>
-        <module>shared</module>
-        <module>httpbin</module>
+<!--        <module>shared</module>-->
+<!--        <module>httpbin</module>-->
     </modules>
 
     <packaging>pom</packaging>
@@ -61,34 +61,14 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>chaos-monkey-spring-boot</artifactId>
-                <version>${chaos.monkey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.dekorate</groupId>
                 <artifactId>kubernetes-spring-starter</artifactId>
-                <version>${io.dekorate.version}</version>
+                <version>0.10.11</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-      <plugins>
-        <plugin>
-               <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
-               <configuration>
-                 <skip>true</skip>
-              </configuration>
-        </plugin>
-      </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -123,32 +103,50 @@
                     <plugins>
                         <plugin>
                             <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${docker-maven-plugin.version}</version>
+                            <artifactId>fabric8-maven-plugin</artifactId>
+                            <version>4.4.0</version>
+
+
                             <configuration>
-                                <skipPush>true</skipPush>
-                                <registry>${docker.registry.url}</registry>
-                                <images>
-                                    <image>
-                                        <name>${project.artifactId}</name>
-                                        <build>
-                                            <contextDir>${project.basedir}</contextDir>
-                                            <tags>
-                                                <tag>${project.version}</tag>
-                                            </tags>
-                                            <args>
-                                                <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                                                <SERVICE_NAME>${project.name}</SERVICE_NAME>
-                                            </args>
-                                        </build>
-                                    </image>
-                                </images>
+                                <isJib>true</isJib>
+                                <namespace>spring-boot-ns</namespace>
+                                <resources>
+                                    <labels>
+                                        <all>
+                                            <testProject>spring-boot-sample</testProject>
+                                        </all>
+                                    </labels>
+                                </resources>
+                                <!-- Generator configuration to include a generator and  default build image configuration-->
+                                <generator>
+                                    <includes>
+                                        <include>spring-boot</include>
+                                    </includes>
+                                    <config>
+                                        <spring-boot>
+                                            <!-- Target Image name to which Jib Container will build to. Change ${image.user} with registry username -->
+                                            <!--<name>${image.user}/${project.artifactId}:${project.version}</name>-->
+                                        </spring-boot>
+                                    </config>
+                                </generator>
+                                <enricher>
+                                    <includes>
+                                        <include>fmp-portname</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>build</exclude>
+                                    </excludes>
+                                    <config>
+                                        <f8-service>
+                                            <type>NodePort</type>
+                                        </f8-service>
+                                    </config>
+                                </enricher>
                             </configuration>
                             <executions>
                                 <execution>
-                                    <id>build-image</id>
-                                    <phase>package</phase>
                                     <goals>
+                                        <goal>resource</goal>
                                         <goal>build</goal>
                                     </goals>
                                 </execution>
