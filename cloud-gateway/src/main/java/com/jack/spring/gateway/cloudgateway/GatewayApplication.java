@@ -6,12 +6,14 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
+import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,22 +77,6 @@ public class GatewayApplication {
 		return exchange -> Mono.just("1");
 	}
 
-	//    @Bean
-	KeyResolver queryQueryParamResolver() {
-		return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
-	}
-
-	@Bean
-	KeyResolver sessionResolver() {
-		KeyResolver sessionKeyResolver = exchange -> Mono.just( exchange.getSession().map(s -> s.getAttribute("JSESSIONID") ).toString() );
-		return sessionKeyResolver;
-	}
-
-//	@Bean
-//	public MapReactiveUserDetailsService reactiveUserDetailsService() {
-//		UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build();
-//		return new MapReactiveUserDetailsService(user);
-//	}
 
 	@Bean
 	RedisRateLimiter redisRateLimiter() {
@@ -102,12 +88,12 @@ public class GatewayApplication {
 		return WebClient.builder();
 	}
 
-//    @Bean
-//    public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
-//        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-//                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-//                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build()).build());
-//    }
+    @Bean
+    public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build()).build());
+    }
 
 	@Bean
 	public ReactiveResilience4JCircuitBreakerFactory circuitBreakerFactory() {
