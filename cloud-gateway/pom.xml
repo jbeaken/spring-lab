@@ -7,16 +7,19 @@
         <groupId>com.jack.spring</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cloud-gateway</artifactId>
     <name>cloud-gateway</name>
 
+    <description>Minimal Example with Spring Boot</description>
+
     <dependencies>
-        <dependency>
-            <groupId>io.dekorate</groupId>
-            <artifactId>kubernetes-spring-starter</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>io.dekorate</groupId>-->
+        <!--            <artifactId>kubernetes-spring-starter</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -25,22 +28,22 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-kubernetes</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-kubernetes-ribbon</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-kubernetes-ribbon</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- Resilience4j -->
         <dependency>
@@ -58,18 +61,18 @@
         </dependency>
 
         <!-- Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-security</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-security</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -111,20 +114,90 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-maven-plugin</artifactId>
-                <version>4.4.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>resource</goal>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
         </plugins>
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>fabric8-jib</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>4.5-SNAPSHOT</version>
+                        <configuration>
+                            <!-- fabric8.build.jib enabled for Jib Build execution -->
+                            <isJib>true</isJib>
+                            <namespace>spring-boot-ns</namespace>
+                            <resources>
+                                <labels>
+                                    <all>
+                                        <testProject>spring-boot-sample</testProject>
+                                    </all>
+                                </labels>
+                            </resources>
+                            <!-- Generator configuration to include a generator and  default build image configuration-->
+                            <generator>
+                                <includes>
+                                    <include>spring-boot</include>
+                                </includes>
+                                <config>
+                                    <spring-boot>
+                                        <!-- Target Image name to which Jib Container will build to. Change ${image.user} with registry username -->
+<!--                                        <name>jbaek/asdf/lateste</name>-->
+                                    </spring-boot>
+                                </config>
+                            </generator>
+                            <enricher>
+                                <includes>
+                                    <include>fmp-portname</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>build</exclude>
+                                </excludes>
+                                <config>
+                                    <f8-service>
+                                        <type>NodePort</type>
+                                    </f8-service>
+                                </config>
+                            </enricher>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>fabric8</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 </project>

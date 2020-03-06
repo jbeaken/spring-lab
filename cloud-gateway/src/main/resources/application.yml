@@ -11,39 +11,6 @@ server:
 spring:
   application:
     name: gateway
-  redis:
-    host: localhost
-    port: 6379
-  cloud:
-    kubernetes:
-      enabled: false
-    gateway:
-      discovery:
-        locator:
-          lowerCaseServiceId: true
-          enabled: true
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: gateway
-            client-secret: 349c5fc9-aece-4774-8788-4d45f379c263
-            clientName: Keycloak
-            authorization-grant-type: authorization_code
-            redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope:
-              - openid
-              - profile
-              - email
-        provider:
-          keycloak:
-            authorization-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/auth
-            token-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/token
-            user-info-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/userinfo
-            jwk-set-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/certs
-            user-name-attribute: preferred_username
-
   devtools:
     remote:
       secret=b4409eff-031a-48a5-ac36-4b74da00fd61

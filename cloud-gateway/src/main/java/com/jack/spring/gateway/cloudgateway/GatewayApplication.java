@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
+//import org.springframework.cloud.security.oauth2.gateway.TokenRelayGatewayFilterFactory;
 
 import static io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;
 import static java.time.Duration.ofMillis;
@@ -43,23 +43,22 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-	@Autowired
-	private TokenRelayGatewayFilterFactory filterFactory;
+//	@Autowired
+//	private TokenRelayGatewayFilterFactory filterFactory;
 
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(p -> p.path("/hotdeals/**").filters(f ->
-						f.circuitBreaker(c -> c.setName("hotdeals").setFallbackUri("forward:/fallback"))).uri("lb://hot-deals"))
-				.route(p -> p.path("/fashion/**")
-						.filters(f -> f.circuitBreaker(c -> c.setName("fashion").setFallbackUri("forward:/fallback")))
-						.uri("lb://fashion-bestseller"))
-				.route(p -> p.path("/httpbin/**")
+				.route(p -> p.path("/**").uri("https://bookmarksbookshop.co.uk/"))
+//				.route(p -> p.path("/fashion/**")
+//						.filters(f -> f.circuitBreaker(c -> c.setName("fashion").setFallbackUri("forward:/fallback")))
+//						.uri("lb://fashion-bestseller"))
+//				.route(p -> p.path("/httpbin/**")
 //						.filters(f ->  f.circuitBreaker(c -> c.setName("myCircuitBreaker").setFallbackUri("forward:/fallback")))
-						.filters(f -> f.filter(filterFactory.apply()))
-						.uri("lb://httpbin"))
-				.route(p -> p.path("/toys/**")
-						.filters(f -> f.requestRateLimiter().configure(c -> c.setRateLimiter(redisRateLimiter()).setKeyResolver(allOneWorldKeyResolver()))).uri("lb://toys-bestseller"))
+//						.filters(f -> f.filter(filterFactory.apply()))
+//						.uri("lb://httpbin"))
+//				.route(p -> p.path("/toys/**")
+//						.filters(f -> f.requestRateLimiter().configure(c -> c.setRateLimiter(redisRateLimiter()).setKeyResolver(allOneWorldKeyResolver()))).uri("lb://toys-bestseller"))
 				.build();
 	}
 
@@ -71,17 +70,17 @@ public class GatewayApplication {
 		return ResponseEntity.ok().headers(headers).body(Collections.emptyList());
 	}
 
-	@Bean
-	@Primary
-	KeyResolver allOneWorldKeyResolver() {
-		return exchange -> Mono.just("1");
-	}
-
-
-	@Bean
-	RedisRateLimiter redisRateLimiter() {
-		return new RedisRateLimiter(1, 1);
-	}
+//	@Bean
+//	@Primary
+//	KeyResolver allOneWorldKeyResolver() {
+//		return exchange -> Mono.just("1");
+//	}
+//
+//
+//	@Bean
+//	RedisRateLimiter redisRateLimiter() {
+//		return new RedisRateLimiter(1, 1);
+//	}
 
 	@Bean
 	public WebClient.Builder webClientBuilder() {
