@@ -22,6 +22,7 @@
     <properties>
         <docker.image.prefix>amazon-ecr</docker.image.prefix>
         <docker-maven-plugin.version>0.33.0</docker-maven-plugin.version>
+        <fabric8-maven-plugin.version>4.4.0</fabric8-maven-plugin.version>
 
         <spring-boot-dependencies.version>2.2.5.RELEASE</spring-boot-dependencies.version>
         <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
@@ -60,11 +61,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>io.dekorate</groupId>-->
-<!--                <artifactId>kubernetes-spring-starter</artifactId>-->
-<!--                <version>0.10.11</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>io.dekorate</groupId>
+                <artifactId>kubernetes-spring-starter</artifactId>
+                <version>0.10.11</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -99,31 +100,56 @@
         <profile>
             <id>fabric8</id>
             <build>
-                <pluginManagement>
-<!--                    <plugins>-->
-<!--                        <plugin>-->
-<!--                            <groupId>io.fabric8</groupId>-->
-<!--                            <artifactId>fabric8-maven-plugin</artifactId>-->
-<!--                            <version>4.5-SNAPSHOT</version>-->
-<!--                            <configuration>-->
-<!--                                &lt;!&ndash;                        <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>&ndash;&gt;-->
-<!--                            </configuration>-->
-<!--                        </plugin>-->
-<!--                    </plugins>-->
-                </pluginManagement>
-            </build>
-        </profile>
-        <profile>
-            <id>fabric8-jib</id>
-            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>io.fabric8</groupId>
                             <artifactId>fabric8-maven-plugin</artifactId>
-                            <version>4.4.0</version>
+                            <configuration>
+                                <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>resource</goal>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>fabric8-jib</id>
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>fabric8-maven-plugin</artifactId>
+                            <version>${fabric8-maven-plugin.version}</version>
                             <configuration>
                                 <isJib>true</isJib>
+                                <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>
 <!--                                <namespace>spring-boot-ns</namespace>-->
                                 <resources>
                                     <labels>
@@ -140,7 +166,7 @@
                                     <config>
                                         <spring-boot>
                                             <!-- Target Image name to which Jib Container will build to. Change ${image.user} with registry username -->
-                                            <!--<name>${image.user}/${project.artifactId}:${project.version}</name>-->
+                                            <name>jackbeaken/${project.artifactId}:${project.version}</name>
                                         </spring-boot>
                                     </config>
                                 </generator>
