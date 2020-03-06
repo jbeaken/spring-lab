@@ -43,11 +43,17 @@ spring:
             user-info-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/userinfo
             jwk-set-uri: http://localhost:9090/auth/realms/service/protocol/openid-connect/certs
             user-name-attribute: preferred_username
+
+  devtools:
+    remote:
+      secret=b4409eff-031a-48a5-ac36-4b74da00fd61
 dekorate:
-  kubernetes:
-    group: jackbeaken
+  docker:
+    group: spring
+    version: latest
 logging:
   level:
     org.springframework.security: TRACE
+
 
 
