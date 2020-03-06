@@ -1,7 +1,5 @@
 server:
   port: 8081
-
-
 # Init Chaos Monkey for Spring Boot by profile
 spring:
   profiles:
@@ -11,8 +9,6 @@ spring:
   cloud:
     kubernetes:
       enabled: false
-
-
 # Configure Chaos Monkey - enabled = false
 chaos:
   monkey:
