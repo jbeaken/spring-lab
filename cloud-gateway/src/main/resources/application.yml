@@ -16,7 +16,7 @@ spring:
       secret=b4409eff-031a-48a5-ac36-4b74da00fd61
 dekorate:
   docker:
-    name: test
+    name: cloud-gateway
     group: jackbeaken
     version: latest
 logging:

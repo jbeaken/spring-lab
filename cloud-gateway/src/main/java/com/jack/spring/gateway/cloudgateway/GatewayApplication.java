@@ -49,7 +49,8 @@ public class GatewayApplication {
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(p -> p.path("/**").uri("https://bookmarksbookshop.co.uk/"))
+				.route(p -> p.path("/gateway").uri("https://github.com/"))
+				.route(p -> p.path("/doorway").uri("https://bookmarksbookshop.co.uk/"))
 //				.route(p -> p.path("/fashion/**")
 //						.filters(f -> f.circuitBreaker(c -> c.setName("fashion").setFallbackUri("forward:/fallback")))
 //						.uri("lb://fashion-bestseller"))
