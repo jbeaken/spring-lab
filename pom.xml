@@ -175,15 +175,7 @@
                             <configuration>
                                 <isJib>true</isJib>
                                 <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>
-<!--                                <namespace>spring-boot-ns</namespace>-->
-                                <resources>
-                                    <labels>
-                                        <all>
-                                            <testProject>spring-boot-sample</testProject>
-                                        </all>
-                                    </labels>
-                                </resources>
-                                <!-- Generator configuration to include a generator and  default build image configuration-->
+
                                 <generator>
                                     <includes>
                                         <include>spring-boot</include>
@@ -191,23 +183,11 @@
                                     <config>
                                         <spring-boot>
                                             <!-- Target Image name to which Jib Container will build to. Change ${image.user} with registry username -->
+                                            <from>adoptopenjdk/openjdk11:jdk-11.0.5_10-alpine-slim</from>
                                             <name>jackbeaken/${project.artifactId}:${project.version}</name>
                                         </spring-boot>
                                     </config>
                                 </generator>
-                                <enricher>
-                                    <includes>
-                                        <include>fmp-portname</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>build</exclude>
-                                    </excludes>
-                                    <config>
-                                        <f8-service>
-                                            <type>NodePort</type>
-                                        </f8-service>
-                                    </config>
-                                </enricher>
                             </configuration>
                             <executions>
                                 <execution>
