@@ -1,0 +1,55 @@
+apiVersion: skaffold/v1beta4
+kind: Config
+build:
+  tagPolicy:
+    format: "2006-01-02_10-25-05.222_GMT"
+    timezone: "Local"
+    sha256: {}
+  local:
+    push: false
+  artifacts:
+    - image: jackbeaken/cloud-gateway
+      jibMaven: {}
+test:
+  - image: gcr.io/k8s-skaffold/skaffold-example
+    structureTests:
+      - './structure-test/*'
+deploy:
+  kubectl:
+    manifests:
+      - target/classes/META-INF/dekorate/kubernetes.yml
+portforward:
+  - resourceType: service
+    resourceName: jackbeaken/cloud-gateway
+    port: 8080
+    localPort: 8080
+
+#deploy:
+#  kubeContext: docker-for-desktop
+#  helm:
+#    releases:
+#      - name: test-app
+#        chartPath: test-app/src/main/helm
+#        valuesFiles:
+#          - test-app/src/main/helm/values.yaml
+#        version: 1.0.0
+#        setValueTemplates:
+#          "test-graph.image.repository": '{{.IMAGE_NAME}}'
+#          "test-graph.image.tag": '{{.DIGEST_HEX}}'
+
+
+#deploy:
+#  helm:
+#    releases:
+#      - name: envelo
+#        chartPath: .
+#        values:
+#          module1.image: module1
+#          module2.image: module2
+#          module3.image: module3
+#          module4.image: module4
+#        wait: true
+#
+#    flags:
+#      upgrade:
+#        - --install # needed for Helm 3
