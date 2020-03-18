@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jack.spring</groupId>
-    <artifactId>gateway-parent</artifactId>
+    <artifactId>spring-lab-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <modules>
@@ -217,6 +217,21 @@
                                     </goals>
                                 </execution>
                             </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jkube</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.eclipse.jkube</groupId>
+                            <artifactId>k8s-maven-plugin</artifactId>
+                            <version>0.1.0</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
