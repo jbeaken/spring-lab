@@ -184,46 +184,6 @@
         </profile>
 
         <profile>
-            <id>fabric8-jib</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>fabric8-maven-plugin</artifactId>
-                            <version>${fabric8-maven-plugin.version}</version>
-                            <configuration>
-                                <isJib>true</isJib>
-                                <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>
-
-                                <generator>
-                                    <includes>
-                                        <include>spring-boot</include>
-                                    </includes>
-                                    <config>
-                                        <spring-boot>
-                                            <!-- Target Image name to which Jib Container will build to. Change ${image.user} with registry username -->
-                                            <from>adoptopenjdk/openjdk11:jdk-11.0.5_10-alpine-slim</from>
-                                            <name>jackbeaken/${project.artifactId}:${project.version}</name>
-                                        </spring-boot>
-                                    </config>
-                                </generator>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>resource</goal>
-                                        <goal>build</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <profile>
             <id>jkube</id>
             <build>
                 <pluginManagement>
