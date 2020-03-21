@@ -139,31 +139,6 @@
         </profile>
 
         <profile>
-            <id>fabric8-no-dockerfile</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>fabric8-maven-plugin</artifactId>
-                            <configuration>
-                                <kubernetesManifest>target/classes/META-INF/dekorate/kubernetes.yml</kubernetesManifest>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>resource</goal>
-                                        <goal>build</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <profile>
             <id>jib</id>
             <build>
                 <pluginManagement>
