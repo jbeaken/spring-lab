@@ -1,0 +1,4 @@
+spring:
+  redis:
+    host: redis-cluster-ip-service
+    password: foobared

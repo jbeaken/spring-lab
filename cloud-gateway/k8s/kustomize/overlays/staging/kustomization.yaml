@@ -1,0 +1,14 @@
+bases:
+- ../../base
+namespace: default
+configMapGenerator:
+  - name: scg-configmap
+    behavior: merge
+    files:
+      - application.properties
+patchesStrategicMerge:
+  - patch-imagePullSecrets.yaml
+images:
+ - name: elsapi/gateway
+   newName: 079179965975.dkr.ecr.us-east-1.amazonaws.com/gateway
+   newTag: latest

@@ -1,0 +1,3 @@
+maxmemory 5mb
+maxmemory-policy allkeys-lru
+requirepass foobared

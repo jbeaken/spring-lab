@@ -1,0 +1,12 @@
+bases:
+- ../../base
+patchesStrategicMerge:
+configMapGenerator:
+- name: scg-configmap
+  behavior: merge
+  files:
+    - application.yaml
+images:
+ - name: elsapi/gateway
+   newName: gateway
+   newTag: latest

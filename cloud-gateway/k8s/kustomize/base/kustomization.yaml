@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+resources:
+- gateway.yml
+- redis-deployment.yml
+- redis-service.yml
+- ingress.yaml
+configMapGenerator:
+- name: scg-configmap
+- name: redis-configmap
+  files:
+    - config/redis-config
+generatorOptions:
+  # disableNameSuffixHash disables adding a suffix to the names of generated resources that is a hash of the resource contents.
+  disableNameSuffixHash: true
