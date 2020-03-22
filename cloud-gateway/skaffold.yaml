@@ -1,0 +1,24 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+metadata:
+  name: cloud-gateway
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: jackbeaken/cloud-gateway
+      jib:
+        project: com.jack.spring:cloud-gateway
+test:
+  - image: jackbeaken/cloud-gateway
+    structureTests:
+      - './structure-test/*'
+deploy:
+  kustomize:
+    paths: ["k8s/kustomize/overlays/minikube"]
+# Port forwarding is disabled by default; it can be enabled with the --port-forward flag. If this flag is not set, no port forwarding will occur!
+#portforward:
+#  - resourceType: deployment
+#    resourceName: jackbeaken/cloud-gateway
+#    port: 8080
+#    localPort: 8080
