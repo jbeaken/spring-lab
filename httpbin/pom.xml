@@ -12,15 +12,6 @@
     <artifactId>httpbin</artifactId>
     <name>httpbin</name>
 
-    <distributionManagement>
-       <repository>
-         <id>github</id>
-         <name>GitHub OWNER Apache Maven Packages</name>
-         <url>https://maven.pkg.github.com/jbeaken/httpbin</url>
-       </repository>
-    </distributionManagement>
-
-
     <dependencies>
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -85,25 +76,18 @@
             <artifactId>kubernetes-spring-starter</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
-          <plugin>
-                 <artifactId>maven-deploy-plugin</artifactId>
-                 <configuration>
-                   <skip>false</skip>
-                </configuration>
-          </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <skipPush>false</skipPush>
-                </configuration>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
 </project>
