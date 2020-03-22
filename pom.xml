@@ -9,12 +9,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <!--        <module>service-uno</module>-->
-        <!--        <module>service-dos</module>-->
-        <!--        <module>service-tres</module>-->
+        <module>service-uno</module>
+        <module>service-dos</module>
+        <module>service-tres</module>
         <module>cloud-gateway</module>
-        <!--        <module>shared</module>-->
-        <!--        <module>httpbin</module>-->
+        <module>shared</module>
+        <module>httpbin</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -66,6 +66,12 @@
                 <artifactId>kubernetes-spring-starter</artifactId>
                 <version>0.10.11</version>
             </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>chaos-monkey-spring-boot</artifactId>
+                <version>2.2.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
