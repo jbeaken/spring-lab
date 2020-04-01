@@ -20,10 +20,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <docker.image.prefix>amazon-ecr</docker.image.prefix>
-        <docker-maven-plugin.version>0.33.0</docker-maven-plugin.version>
-        <fabric8-maven-plugin.version>4.4.0</fabric8-maven-plugin.version>
-
+        <jkube-maven-plugin.version>0.2.0</jkube-maven-plugin.version>
+        <jib-maven-plugin.version>2.1.0</jib-maven-plugin.version>
         <spring-boot-dependencies.version>2.2.5.RELEASE</spring-boot-dependencies.version>
         <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
 
@@ -32,7 +30,9 @@
         <lombok.version>1.18.12</lombok.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <java.version>11</java.version>
+
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -89,39 +89,26 @@
                         </execution>
                     </executions>
                 </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
                     <configuration>
                         <release>${java.version}</release>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jib-maven-plugin.version}</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
 
     <profiles>
-
-        <profile>
-            <id>jib</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.google.cloud.tools</groupId>
-                            <artifactId>jib-maven-plugin</artifactId>
-                            <version>2.1.0</version>
-                            <configuration>
-                                <to>
-                                    <image>jackbeaken/${project.artifactId}:${project.version}</image>
-                                </to>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
 
         <profile>
             <id>jkube</id>
@@ -131,7 +118,7 @@
                         <plugin>
                             <groupId>org.eclipse.jkube</groupId>
                             <artifactId>k8s-maven-plugin</artifactId>
-                            <version>0.1.1</version>
+                            <version>${jkube-maven-plugin.version}</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
