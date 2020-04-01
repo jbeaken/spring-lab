@@ -1,12 +1,18 @@
 package com.jack.spring.gateway.cloudgateway;
 
+import com.jack.spring.gateway.cloudgateway.ratelimiter.ApiKeyRateLimiter;
+import com.jack.spring.gateway.cloudgateway.ratelimiter.service.Throttle;
+import com.jack.spring.gateway.cloudgateway.ratelimiter.service.ThrottleService;
 import com.jack.spring.gateway.domain.Product;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.context.annotation.Primary;
@@ -15,7 +21,9 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,14 +51,21 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-//	@Autowired
+	@Autowired
+	private DiscoveryClient discoveryClient;
+
+	//	@Autowired
 //	private TokenRelayGatewayFilterFactory filterFactory;
+
+	@Autowired
+	private ApiKeyRateLimiter apiKeyRateLimiter;
+
 
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(p -> p.path("/gateway").uri("https://github.com/"))
-				.route(p -> p.path("/doorway").uri("https://bookmarksbookshop.co.uk/"))
+//				.route(p -> p.path("/gateway").uri("https://github.com/"))
+//				.route(p -> p.path("/doorway").uri("https://bookmarksbookshop.co.uk/"))
 //				.route(p -> p.path("/fashion/**")
 //						.filters(f -> f.circuitBreaker(c -> c.setName("fashion").setFallbackUri("forward:/fallback")))
 //						.uri("lb://fashion-bestseller"))
@@ -58,8 +73,12 @@ public class GatewayApplication {
 //						.filters(f ->  f.circuitBreaker(c -> c.setName("myCircuitBreaker").setFallbackUri("forward:/fallback")))
 //						.filters(f -> f.filter(filterFactory.apply()))
 //						.uri("lb://httpbin"))
-//				.route(p -> p.path("/toys/**")
-//						.filters(f -> f.requestRateLimiter().configure(c -> c.setRateLimiter(redisRateLimiter()).setKeyResolver(allOneWorldKeyResolver()))).uri("lb://toys-bestseller"))
+				.route(p -> p.path("/api/**")
+						.filters(f -> f.addRequestHeader("apiKey", "544sdf")
+								.requestRateLimiter()
+										.configure(c -> c.setRateLimiter(apiKeyRateLimiter)
+										.setKeyResolver(apiKeyResolver())))
+						.uri("https://bookmarksbookshop.co.uk/"))
 				.build();
 	}
 
@@ -71,15 +90,39 @@ public class GatewayApplication {
 		return ResponseEntity.ok().headers(headers).body(Collections.emptyList());
 	}
 
-//	@Bean
-//	@Primary
-//	KeyResolver allOneWorldKeyResolver() {
-//		return exchange -> Mono.just("1");
-//	}
-//
+
+	@GetMapping("/serviceInstances")
+	public ResponseEntity<List<List<String>>> serviceInstances() {
+
+		List<String> services = discoveryClient.getServices();
+
+		ResponseEntity<List<List<String>>> body = ResponseEntity.ok().body(Collections.singletonList(services));
+
+		return body;
+	}
+	@Bean
+	@Primary
+	KeyResolver apiKeyResolver() {
+		return exchange -> Mono.just(exchange.getRequest().getHeaders().get("apiKey").get(0));
+	}
+
+	@Bean
+	ThrottleService throttleService() {
+
+		Map<String, Throttle> throttleMap = new HashMap<>();
+
+		throttleMap.put("544sdf", new Throttle(2, 3));
+
+		ThrottleService throttleService = new ThrottleService( throttleMap );
+
+
+		return throttleService;
+	}
+
 //
 //	@Bean
 //	RedisRateLimiter redisRateLimiter() {
+//		RedisRateLimiter redisRateLimiter = new RedisRateLimiter(1, 1);
 //		return new RedisRateLimiter(1, 1);
 //	}
 

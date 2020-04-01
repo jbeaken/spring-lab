@@ -2,7 +2,7 @@ bases:
 - ../../base
 patchesStrategicMerge:
 configMapGenerator:
-- name: scg-configmap
+- name: gateway-configmap
   behavior: merge
   files:
     - application.yaml

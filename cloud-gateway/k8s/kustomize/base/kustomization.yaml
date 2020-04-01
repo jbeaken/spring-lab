@@ -7,7 +7,7 @@ resources:
 - redis-service.yml
 - ingress.yaml
 configMapGenerator:
-- name: scg-configmap
+- name: gateway-configmap
 - name: redis-configmap
   files:
     - config/redis-config

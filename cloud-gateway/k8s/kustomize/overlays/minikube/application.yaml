@@ -1,4 +1,4 @@
 spring:
   redis:
-    host: redis-cluster-ip-service
+    host: redis
     password: foobared
